@@ -10,6 +10,7 @@ class EventsTab extends EventsBase {
                 event_type: {"type": "keyword"},
 
                 active: {"type": "integer"},
+                active_time: {"type": "float"},
                 attention: {"type": "integer"},
                 audible: {"type": "integer"},
                 cookie_store_id: {"type": "keyword"},
@@ -47,6 +48,7 @@ class EventsTab extends EventsBase {
     convert(event) {
         return {
             active: event.active ? 1 : 0,
+            active_time: event.active_time ? event.active_time / 1000. : undefined,
             attention: event.attention ? 1 : 0,
             audible: event.audible ? 1 : 0,
             cookie_store_id: event.cookieStoreId,
@@ -84,6 +86,16 @@ class TabsCollector {
     constructor(events) {
         this.events = events;
         this.tabs = {};
+        this.tab_active_time = {};
+        this.get_all_tabs()
+            .then(tabs => {
+                for (const tab of tabs) {
+                    this.tabs[tab.tabId] = tab;
+                    if (tab.active) {
+                        this.tab_active_time[tab.id] = new Date().getTime();
+                    }
+                }
+            });
         this.hook();
     }
 
@@ -107,16 +119,36 @@ class TabsCollector {
     };
 
     on_removed = (tabId, removeInfo) => {
-        this.export_tab_event("remove", tabId)
+        let active_time = undefined;
+        if (this.tab_active_time[tabId]) {
+            const timestamp = new Date().getTime();
+            active_time = timestamp - this.tab_active_time[tabId];
+        }
+
+        this.export_tab_event("remove", tabId, {active_time})
             .then(() => {
                 delete this.tabs[tabId];
+                delete this.tab_active_time[tabId];
             });
     };
 
     on_activated = (event) => {
+        const timestamp = new Date().getTime();
+        this.tab_active_time[event.tabId] = timestamp;
+
         this.export_tab_event("activate", event.tabId);
-        if (event.previousTabId)
-            this.export_tab_event("deactivate", event.previousTabId);
+
+        if (event.previousTabId) {
+            let active_time = undefined;
+            if (this.tab_active_time[event.previousTabId])
+                active_time = timestamp - this.tab_active_time[event.previousTabId];
+
+            this.export_tab_event(
+                "deactivate", event.previousTabId,
+                {active_time},
+            );
+        }
+
         // tabId, previousTabId, windowId
     };
 
@@ -158,6 +190,11 @@ class TabsCollector {
     get_tab = (id) => {
         // TODO: probably has to be made cross-platform
         return browser.tabs.get(id);
+    };
+
+    get_all_tabs = () => {
+        // TODO: probably has to be made cross-platform
+        return browser.tabs.query({});
     };
 }
 
