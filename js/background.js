@@ -5,9 +5,13 @@ class Background {
 
     constructor() {
         this.events = new Events();
-        this.tabs = new TabsCollector(this.events);
-        this.request_collector = new RequestCollector(this.events, this.tabs);
-        this.mouse = new Mouse(this.events, this.tabs);
+        this.events.add_events(new EventsMouse());
+        this.events.add_events(new EventsRequest());
+        this.events.add_events(new EventsTab());
+
+        this.tabs_collector = new TabsCollector(this.events);
+        this.request_collector = new RequestCollector(this.events, this.tabs_collector);
+        this.mouse_collector = new MouseCollector(this.events, this.tabs_collector);
         this.hook();
     }
 
@@ -17,15 +21,17 @@ class Background {
             switch (message.type) {
 
                 case "popup-opened":
-                    this.update_popup_statistics();
+                    this.update_popup();
                     break;
 
                 case "content-mouse":
-                    this.mouse.add(message.event, sender.tab);
+                    this.mouse_collector.add(message.event, sender.tab);
                     break;
 
                 case "export":
-                    this.events.export().then(this.update_popup_statistics);
+                    this.events.export()
+                        .then(this.update_popup)
+                        .catch(this.update_popup);
                     break;
             }
 
@@ -34,10 +40,14 @@ class Background {
 
     };
 
-    update_popup_statistics = () => {
+    update_popup = () => {
         chrome.runtime.sendMessage({
             type: "popup-render-events",
             events: this.events.statistics(),
+        });
+        chrome.runtime.sendMessage({
+            type: "popup-render-log",
+            messages: log.messages,
         });
     };
 

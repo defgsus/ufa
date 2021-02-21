@@ -1,3 +1,90 @@
+class EventsRequest extends EventsBase {
+    constructor() {
+        super("request")
+    }
+
+    mapping() {
+        return {
+            properties: {
+                event_type: {"type": "keyword"},
+
+                cookie_store_id: {"type": "keyword"},
+                document_url: URL_MAPPING,
+                error: {"type": "keyword"},
+                frame_id: {"type": "long"},
+                from_cache: {"type": "boolean"},
+                incognito: {"type": "integer"},
+                initiator: {"type": "keyword"},
+                is_blocked: {"type": "integer"},
+                is_error: {"type": "integer"},
+                ip: {"type": "ip"},
+                method: {"type": "keyword"},
+                origin_url: {"type": "keyword"},
+                parent_frame_id: {"type": "long"},
+                request_headers: {
+                    "properties": {
+                        "name": {"type": "keyword"},
+                        "value": {"type": "keyword"},
+                    }
+                },
+                request_id: {"type": "keyword"},
+                request_size: {"type": "long"},
+                response_size: {"type": "long"},
+                response_time: {"type": "integer"},
+                status_code: {"type": "integer"},
+                tab_id: {"type": "long"},
+                tab_active: {"type": "integer"},
+                tab_title: {"type": "keyword"},
+                tab_url: URL_MAPPING,
+                third_party: {"type": "integer"},
+                timestamp: {"type": "date"},
+                timestamp_finished: {"type": "date"},
+                type: {"type": "keyword"},
+                url: URL_MAPPING,
+            }
+        };
+    }
+
+    convert(event) {
+        return {
+            cookie_store_id: event.cookieStoreId,
+            document_url: event.documentUrl,
+            error: event.error,
+            frame_id: event.frameId,
+            from_cache: event.fromCache,
+            incognito: event.incognito ? 1 : 0,
+            initiator: event.initiator,
+            // TODO: make cross-platform
+            is_blocked: event.error === "NS_ERROR_ABORT" ? 1 : 0,
+            is_error: event.error ? 1 : 0,
+            ip: event.ip,
+            method: event.method,
+            parent_frame_id: event.parentFrameId,
+            request_headers: event.requestHeaders,
+            request_id: event.requestId,
+            request_size: event.requestSize,
+            response_size: event.responseSize,
+            response_time: event.response_time,
+            status_code: event.statusCode,
+            tab_id: event.tabId,
+            ...minimal_tab_data(event.tab),
+            third_party: event.thirdParty ? 1 : 0,
+            timestamp: event.timestamp,
+            timestamp_finished: event.timestamp_finished,
+            type: event.type,
+            url: event.url,
+        };
+    }
+
+    drop(event) {
+        try {
+            return event.originUrl.indexOf(EXTENSION_URL) >= 0;
+        } catch (e) {
+            return super.drop(data);
+        }
+    }
+}
+
 
 class RequestCollector {
     constructor(events, tabs) {
@@ -55,11 +142,7 @@ class RequestCollector {
         if (request.documentUrl)
             request.documentUrl = split_url(request.documentUrl);
 
-        const tab = this.tabs.tabs[request.tabId];
-        if (tab) {
-            request.tab_active = tab.active;
-            request.tab_title = tab.title;
-        }
+        request.tab = this.tabs.tabs[request.tabId];
 
         this.events.add("request", request);
 

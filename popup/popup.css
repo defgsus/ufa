@@ -16,3 +16,25 @@ html, body {
 
 .statistics .row .cell-3 { width: 25% }
 .statistics .row .cell-4 { width: 33.33% }
+
+
+.log .message div {
+    font-family: monospace;
+    font-size: .75rem;
+    display: inline;
+    margin-right: 1rem;
+}
+
+.log .message .timestamp {
+    font-size: .5rem;
+}
+
+.log .message .data {
+    font-size: .75rem;
+    margin-top: 0;
+}
+
+
+.log .message.log { color: #333; }
+.log .message.warn { color: #442; }
+.log .message.error { color: #511; }

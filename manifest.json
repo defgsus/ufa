@@ -16,6 +16,7 @@
 
   "background": {
     "scripts": [
+      "js/log.js",
       "js/helper.js",
       "js/elastic.js",
       "js/events.js",

@@ -16,6 +16,17 @@ function split_url(url) {
     return data;
 }
 
+function minimal_tab_data(tab) {
+    if (tab) {
+        return {
+            tab_id: tab.id,
+            tab_active: tab.active ? 1 : 0,
+            tab_title: tab.title,
+            tab_url: split_url(tab.url),
+        };
+    }
+}
+
 /**
  * Convert integer timestamp to iso-string
  * @param ts int

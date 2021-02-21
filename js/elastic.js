@@ -45,7 +45,10 @@ class ElasticClient {
                 else if (response.status === 200) {
                     return response
                 } else {
-                    throw `Invalid response ${response.status}`;
+                    throw {
+                        message: `Invalid response ${response.status}`,
+                        data: {status: response.status}
+                    };
                 }
             })
             .then(response => {
@@ -56,6 +59,21 @@ class ElasticClient {
                         body: mapping,
                     }
                 );
+            })
+            .then(response => {
+                if (response.status !== 200) {
+                    return response.json()
+                        .then(response => {
+                            throw {
+                                message: `Error mapping index '${index}'`,
+                                data: {response}
+                            }
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                }
+                return response;
             });
     };
 
@@ -83,7 +101,18 @@ class ElasticClient {
                 method: "POST",
                 body: body,
             }
-        );
+        ).then(response => {
+            if (response.status !== 200) {
+                return response.json()
+                    .then(response => {
+                        throw {
+                            message: `Error exporting bulk to index '${index}', status = '${response.status}'`,
+                            data: {response}
+                        }
+                    });
+            }
+            return response;
+        });
     };
 }
 
