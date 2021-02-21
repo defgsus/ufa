@@ -1,0 +1,18 @@
+html, body {
+    height: 20rem;
+    width: 40rem;
+    margin: 0;
+}
+
+
+.statistics .row {
+    display: block;
+}
+
+.statistics .row .cell-3,
+.statistics .row .cell-4 {
+    display: inline-block;
+}
+
+.statistics .row .cell-3 { width: 25% }
+.statistics .row .cell-4 { width: 33.33% }

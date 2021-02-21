@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "description": "Elasticsearch export of web requests",
+  "name": "web-request-stats-exporter",
+  "version": "0.1",
+  "homepage_url": "https://github.com/defgsus/",
+  "icons": {
+    "48": "assets/logo.svg"
+  },
+
+  "permissions": [
+    "<all_urls>",
+    "tabs",
+    "webRequest"
+  ],
+
+  "background": {
+    "scripts": [
+      "js/helper.js",
+      "js/elastic.js",
+      "js/events.js",
+      "js/tabs.js",
+      "js/requests.js",
+      "js/mouse.js",
+      "js/background.js"
+    ]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/logo.svg",
+    "default_title": "Überwachung!",
+    "default_popup": "popup/popup.html"
+  }
+
+}
