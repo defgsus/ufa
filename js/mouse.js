@@ -20,6 +20,7 @@ class EventsMouse extends EventsBase {
                 meta_key: {"type": "integer"},
                 movement_x: {"type": "integer"},
                 movement_y: {"type": "integer"},
+                movement: {"type": "integer"},
                 offset_x: {"type": "integer"},
                 offset_y: {"type": "integer"},
                 page_x: {"type": "integer"},
@@ -33,14 +34,7 @@ class EventsMouse extends EventsBase {
                 tab_active: {"type": "integer"},
                 tab_title: {"type": "keyword"},
                 tab_url: URL_MAPPING,
-                target: {
-                    "properties": {
-                        "tag_name": {"type": "keyword"},
-                        "id": {"type": "keyword"},
-                        "class_list": {"type": "keyword"},
-                        "title": {"type": "keyword"},
-                    }
-                },
+                target: TAG_MAPPING,
                 timestamp: {"type": "date"},
                 type: {"type": "keyword"},
             }

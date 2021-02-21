@@ -1,3 +1,11 @@
+/*
+Some helper functions that DO NOT require web-extension context
+ */
+
+function not_empty_string(s) {
+    return s && s !== "" ? s : undefined
+}
+
 function split_url(url) {
     if (!url)
         return null;
@@ -6,12 +14,12 @@ function split_url(url) {
     a.setAttribute('href', url);
     const data = {
         protocol: a.protocol?.length > 1 ? a.protocol.slice(0, a.protocol.length - 1) : a.protocol,
-        host: a.hostname,
-        port: a.port,
-        path: a.pathname,
-        hash: a.hash,
+        host: not_empty_string(a.hostname),
+        port: not_empty_string(a.port),
+        path: not_empty_string(a.pathname),
+        hash: not_empty_string(a.hash),
     };
-    if (url.search)
+    if (not_empty_string(url.search))
         data.param = a.search.split("&");
     return data;
 }
@@ -26,6 +34,24 @@ function minimal_tab_data(tab) {
         };
     }
 }
+
+
+function element_to_object(elem) {
+    const data = {
+        tag: elem.tagName,
+        class: [...elem.classList],
+        id: elem.id,
+        title: elem.title,
+        text: elem.innerText ? elem.innerText.slice(0, 128) : undefined,
+    };
+    if (elem.getAttribute("href"))
+        data.href = split_url(elem.getAttribute("href"));
+    if (elem.getAttribute("src"))
+        data.href = split_url(elem.getAttribute("src"));
+
+    return data;
+}
+
 
 /**
  * Convert integer timestamp to iso-string

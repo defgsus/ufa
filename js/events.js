@@ -12,6 +12,18 @@ const URL_MAPPING = {
     },
 };
 
+const TAG_MAPPING = {
+    "properties": {
+        "tag": {"type": "keyword"},
+        "id": {"type": "keyword"},
+        "class": {"type": "keyword"},
+        "title": {"type": "keyword"},
+        "text": {"type": "keyword"},
+        "href": URL_MAPPING,
+        "src": URL_MAPPING,
+    }
+};
+
 
 class EventsBase {
     constructor(event_type) {
@@ -49,6 +61,9 @@ class EventsBase {
 
         const clean_event = {};
         for (const key of Object.keys(event)) {
+            if (event[key] === undefined)
+                continue;
+
             if (!mapping[key]) {
                 log.warn(`Unmapped key '${key}' in '${this.event_type}' object`);
                 continue
