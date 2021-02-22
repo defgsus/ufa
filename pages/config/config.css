@@ -14,8 +14,33 @@ html, body {
     display: inline;
 }
 
-.config {
+.config .section {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 2rem;
+}
 
+.config .section .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    padding: .2rem;
+    background: #ddd;
+}
+
+.config .section .field {
+    margin-top: 1rem;
+    position: relative;
+}
+
+.config .section .field .name {
+    font-weight: bold;
+    width: 40%;
+    display: inline-block;
+}
+
+.config .section .field .value {
+    display: inline-block;
 }
 
 

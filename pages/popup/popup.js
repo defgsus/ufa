@@ -21,6 +21,12 @@ document.querySelector("button.export").addEventListener("click", () => {
     });
 });
 
+document.querySelector("button.config").addEventListener("click", () => {
+    chrome.tabs.create({
+        url: "/pages/config/config.html",
+    });
+});
+
 
 for (const elem of document.querySelectorAll(".new-tab"))
     elem.addEventListener("click", () => {

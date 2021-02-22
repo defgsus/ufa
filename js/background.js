@@ -24,6 +24,10 @@ class Background {
                     this.update_popup();
                     break;
 
+                case "config-opened":
+                    this.update_config();
+                    break;
+
                 case "content-mouse":
                     this.mouse_collector.add(message.event, sender.tab);
                     break;
@@ -33,6 +37,7 @@ class Background {
                         .then(this.update_popup)
                         .catch(this.update_popup);
                     break;
+
             }
 
             sendResponse();
@@ -60,6 +65,12 @@ class Background {
         });
     };
 
+    update_config = () => {
+        chrome.runtime.sendMessage({
+            type: "config-render",
+            configuration: configuration.config,
+        });
+    }
 }
 
 
