@@ -38,6 +38,15 @@ class Background {
             sendResponse();
         });
 
+        setTimeout(this.export_events_periodic, 60000);
+    };
+
+    export_events_periodic = () => {
+        this.events.export()
+            .then(this.update_popup)
+            .catch(this.update_popup);
+
+        setTimeout(this.export_events_periodic, 60000);
     };
 
     update_popup = () => {
