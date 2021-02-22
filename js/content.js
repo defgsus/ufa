@@ -38,8 +38,8 @@ function mouse_event_to_object(event, target=null) {
 
 for (const type of ["click", "dblclick"]) {
     window.addEventListener(type, event => {
-        // console.log(type, event);
-        const event_object = mouse_event_to_object(event, target);
+        //console.log(type, event);
+        const event_object = mouse_event_to_object(event);
         event_object.type = type;
         //console.log("CONV", event_object);
         //console.log("TARGET", event_object.target);
