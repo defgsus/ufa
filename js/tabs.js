@@ -32,6 +32,7 @@ class EventsTab extends EventsBase {
                 share_screen: {"type": "integer"},
                 status: {"type": "keyword"},
                 successor_id: {"type": "integer"},
+                timestamp: {"type": "date"},
                 title: {"type": "keyword"},
                 to_index: {"type": "integer"},
                 type: {"type": "keyword"},
@@ -70,6 +71,7 @@ class EventsTab extends EventsBase {
             share_screen: event.sharingState?.screen ? 1 : 0,
             status: event.status,
             successor_id: event.successorTabId,
+            timestamp: convert_timestamp(event.timestamp),
             title: event.title,
             to_index: event.to_index,
             type: event.type,
@@ -168,6 +170,7 @@ class TabsCollector {
         let tab = {
             tabId: id,
             type: type,
+            timestamp: new Date().getTime(),
             ...extra_data,
         };
 
