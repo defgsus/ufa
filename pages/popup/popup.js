@@ -9,13 +9,8 @@ request_update();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.type) {
-        case "popup-render-events": renderEvents(message.events);
-    }
-});
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    switch (message.type) {
-        case "popup-render-log": renderLogs(message.messages);
+        case "popup-render-events": renderEvents(message.events); break;
+        case "popup-render-log": renderLogs(message.messages); break;
     }
 });
 
@@ -30,7 +25,7 @@ document.querySelector("button.export").addEventListener("click", () => {
 for (const elem of document.querySelectorAll(".new-tab"))
     elem.addEventListener("click", () => {
         chrome.tabs.create({
-            url: "/popup/popup.html",
+            url: "/pages/popup/popup.html",
         });
     });
 

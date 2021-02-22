@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "description": "Elasticsearch export of web requests",
-  "name": "web-request-stats-exporter",
+  "description": "Elasticsearch export of your browsing behaviour",
+  "name": "Überwachung für Alle!",
   "version": "0.1",
   "homepage_url": "https://github.com/defgsus/",
   "icons": {
@@ -41,7 +41,7 @@
   "browser_action": {
     "default_icon": "assets/logo-48.png",
     "default_title": "Überwachung!",
-    "default_popup": "popup/popup.html"
+    "default_popup": "pages/popup/popup.html"
   }
 
 }

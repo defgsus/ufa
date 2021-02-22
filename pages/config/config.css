@@ -1,0 +1,34 @@
+html, body {
+    font-family: monospace;
+}
+
+.head {
+    background: #c0d9f2;
+    margin: 0;
+    padding: 1rem;
+}
+
+.head .title {
+    font-size: 2rem;
+    font-weight: bold;
+    display: inline;
+}
+
+.config {
+
+}
+
+
+
+.actions {
+    background: #c0d9f2;
+    margin: 0;
+    padding: 1rem;
+}
+
+.actions button {
+    background: white;
+    border: .2rem solid #a0baca;
+    padding: 0.1rem 1rem .1rem 1rem;
+    font-family: monospace;
+}
