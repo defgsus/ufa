@@ -140,6 +140,9 @@ class RequestCollector {
     };
 
     export_request = (request) => {
+        if (!configuration.get("requests.active"))
+            return;
+
         request.timestamp = convert_timestamp(request.timestamp || request.timeStamp);
         request.timestamp_finished = convert_timestamp(request.timestamp_finished);
         request.url = split_url(request.url);

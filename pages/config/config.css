@@ -28,14 +28,24 @@ html, body {
     background: #ddd;
 }
 
+.config .section .description {
+    font: caption;
+}
+
+.config .section .field .description {
+    margin-left: 1rem;
+    margin-top: .2rem;
+}
+
 .config .section .field {
     margin-top: 1rem;
+    margin-left: 1rem;
     position: relative;
 }
 
 .config .section .field .name {
     font-weight: bold;
-    width: 40%;
+    width: 20rem;
     display: inline-block;
 }
 
@@ -48,6 +58,7 @@ html, body {
 .actions {
     background: #c0d9f2;
     margin: 0;
+    margin-top: 2rem;
     padding: 1rem;
 }
 
@@ -56,4 +67,8 @@ html, body {
     border: .2rem solid #a0baca;
     padding: 0.1rem 1rem .1rem 1rem;
     font-family: monospace;
+}
+
+.actions button:active {
+    background: lightgreen;
 }

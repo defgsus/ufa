@@ -21,11 +21,19 @@ class Background {
             switch (message.type) {
 
                 case "popup-opened":
-                    this.update_popup();
+                    this.update_popup_view();
                     break;
 
                 case "config-opened":
-                    this.update_config();
+                    this.update_config_view();
+                    break;
+
+                case "config-saved":
+                    configuration.config = message.configuration;
+                    this.set_export_timeout();
+                    // TODO: should actually connect/disconnect from all extension events
+                    //  and the content scripts
+                    this.update_config_view();
                     break;
 
                 case "content-mouse":
@@ -34,27 +42,43 @@ class Background {
 
                 case "export":
                     this.events.export()
-                        .then(this.update_popup)
-                        .catch(this.update_popup);
+                        .then(this.update_popup_view)
+                        .catch(this.update_popup_view);
                     break;
 
             }
 
-            sendResponse();
+            //sendResponse();
         });
 
-        setTimeout(this.export_events_periodic, 60000);
+        this.export_timer = null;
+        this.set_export_timeout();
+    };
+
+    set_export_timeout = () => {
+        if (this.export_timer)
+            clearTimeout(this.export_timer);
+        this.export_timer = null;
+
+        if (configuration.get("elasticsearch.active")) {
+            this.export_timer = setTimeout(
+                this.export_events_periodic,
+                configuration.get("elasticsearch.export_interval")
+            );
+        }
     };
 
     export_events_periodic = () => {
+        const when_done = () => {
+            this.set_export_timeout();
+            this.update_popup_view();
+        };
         this.events.export()
-            .then(this.update_popup)
-            .catch(this.update_popup);
-
-        setTimeout(this.export_events_periodic, 60000);
+            .then(when_done)
+            .catch(when_done);
     };
 
-    update_popup = () => {
+    update_popup_view = () => {
         chrome.runtime.sendMessage({
             type: "popup-render-events",
             events: this.events.statistics(),
@@ -65,7 +89,7 @@ class Background {
         });
     };
 
-    update_config = () => {
+    update_config_view = () => {
         chrome.runtime.sendMessage({
             type: "config-render",
             configuration: configuration.config,

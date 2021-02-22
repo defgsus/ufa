@@ -1,8 +1,14 @@
+
+let local_configuration = null;
+
+
 try {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         switch (message.type) {
             case "config-render":
-                render_config(message.configuration);
+                local_configuration = message.configuration;
+                render_config(local_configuration);
+                break
         }
     });
 
@@ -14,12 +20,26 @@ catch (e) {
 
 }
 
+document.querySelector("button.save").addEventListener("click", () => {
+    chrome.runtime.sendMessage({
+        type: "config-saved",
+        configuration: local_configuration,
+    });
+});
+
+
+document.querySelector("button.revert").addEventListener("click", () => {
+    chrome.runtime.sendMessage({
+        type: "config-opened",
+    });
+});
+
 
 function on_input_change(e) {
     const elem = e.target;
     // console.log("INPUT", elem);
     const config_key = elem.getAttribute("data-id").split(".");
-    const field = configuration[config_key[0]].fields[config_key[1]];
+    const field = local_configuration[config_key[0]].fields[config_key[1]];
     // console.log(field);
 
     let value;
@@ -33,7 +53,8 @@ function on_input_change(e) {
         default:
             value = elem.value;
     }
-    console.log("V", value);
+
+    local_configuration[config_key[0]].fields[config_key[1]].value = value;
 }
 
 
@@ -59,6 +80,8 @@ function render_config(configuration) {
                     html += render_input(section_key, field_key, field);
                     if (field.unit)
                         html += ` ${field.unit}`;
+                    if (field.description)
+                        html += `<div class="description">${field.description}</div>`;
                 html += `</div>`;
             }
 
@@ -69,6 +92,7 @@ function render_config(configuration) {
     for (const elem of document.querySelectorAll("input.value"))
         elem.addEventListener("input", on_input_change);
 }
+
 
 function render_input(section_key, field_key, field) {
     let type = "text";

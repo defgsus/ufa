@@ -168,6 +168,9 @@ class TabsCollector {
     };
 
     export_tab_event = (type, id, extra_data) => {
+        if (!configuration.get("tabs.active"))
+            return;
+
         let tab = {
             tabId: id,
             type: type,
