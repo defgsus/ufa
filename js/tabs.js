@@ -149,6 +149,7 @@ class TabsCollector {
                 "deactivate", event.previousTabId,
                 {active_time},
             );
+            delete this.tab_active_time[event.previousTabId];
         }
 
         // tabId, previousTabId, windowId
@@ -161,7 +162,7 @@ class TabsCollector {
 
     on_zoom = (event) => {
         this.export_tab_event("zoom", event.tabId, {
-            zoom: event.moveInfo.newZoomFactor,
+            zoom: event.moveInfo && event.moveInfo.newZoomFactor,
         });
         // oldZoomFactor, newZoomFactor, windowId
     };
@@ -192,12 +193,25 @@ class TabsCollector {
 
     get_tab = (id) => {
         // TODO: probably has to be made cross-platform
-        return browser.tabs.get(id);
+        try {
+            return browser.tabs.get(id);
+        }
+        catch (e) {
+            return new Promise((resolve, reject) => {
+                chrome.tabs.get(id, resolve);
+            });
+        }
     };
 
     get_all_tabs = () => {
-        // TODO: probably has to be made cross-platform
-        return browser.tabs.query({});
+        try {
+            return browser.tabs.query({});
+        }
+        catch (e) {
+            return new Promise((resolve, reject) => {
+                chrome.tabs.query({}, resolve);
+            });
+        }
     };
 }
 

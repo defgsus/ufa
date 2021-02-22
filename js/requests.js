@@ -80,7 +80,11 @@ class EventsRequest extends EventsBase {
         try {
             return event.originUrl.indexOf(EXTENSION_URL) >= 0;
         } catch (e) {
-            return super.drop(data);
+        }
+        try {
+            return event.initiator.indexOf(EXTENSION_URL.slice(0, EXTENSION_URL.length-1)) >= 0;
+        } catch (e) {
+            return super.drop(event);
         }
     }
 }

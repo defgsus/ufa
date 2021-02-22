@@ -81,7 +81,7 @@ function grab_mouse_move() {
         event_object.movement_x = movement_x;
         event_object.movement_y = movement_y;
         event_object.movement = movement_x + movement_y;
-        console.log(movement_x, movement_y);
+
         chrome.runtime.sendMessage({
             type: "content-mouse",
             event: event_object,
