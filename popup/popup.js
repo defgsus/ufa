@@ -27,26 +27,20 @@ document.querySelector("button.export").addEventListener("click", () => {
 });
 
 
-document.querySelector("button.new-tab").addEventListener("click", () => {
-    chrome.tabs.create({
-        url: "/popup/popup.html",
+for (const elem of document.querySelectorAll(".new-tab"))
+    elem.addEventListener("click", () => {
+        chrome.tabs.create({
+            url: "/popup/popup.html",
+        });
     });
-});
 
 
 function renderEvents(events) {
 
-    let html = '<div class="events">';
-
-    html += `<div class="row">`;
-    html += `<div class="cell-3">event type</div>`;
-    html += `<div class="cell-3">collected</div>`;
-    html += `<div class="cell-3">exported</div>`;
-    html += `<div class="cell-3">pending</div>`;
-    html += `</div>`;
-
     const keys = Object.keys(events);
     keys.sort();
+
+    let html = ``;
 
     for (const key of keys) {
         const stats = events[key];
@@ -57,9 +51,9 @@ function renderEvents(events) {
         html += `<div class="cell-3">${stats.num_collected - stats.num_exported}</div>`;
         html += `</div>`;
     }
-    html += `</div>`;
+    html += ``;
 
-    const container = document.querySelector(".statistics");
+    const container = document.querySelector(".statistics .events");
     container.innerHTML = html;
 }
 

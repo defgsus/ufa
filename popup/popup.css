@@ -2,20 +2,56 @@ html, body {
     height: 20rem;
     width: 40rem;
     margin: 0;
+    font-family: monospace;
+}
+
+.head {
+    background: #c0d9f2;
+    margin: 0;
+    padding: 1rem;
+}
+
+.head .title {
+    font-size: 2rem;
+    font-weight: bold;
+    display: inline;
+}
+
+.head .new-tab {
+    color: #3b3b9f;
+    cursor: pointer;
+}
+
+
+.actions {
+    background: #c0d9f2;
+    margin: 0;
+    padding: 1rem;
+}
+
+.actions button {
+    background: white;
+    border: .2rem solid #a0baca;
+    padding: 0.1rem 1rem .1rem 1rem;
+    font-family: monospace;
 }
 
 
 .statistics .row {
     display: block;
+    white-space: nowrap;
 }
 
 .statistics .row .cell-3,
 .statistics .row .cell-4 {
     display: inline-block;
+    padding-bottom: 0.2rem;
 }
 
 .statistics .row .cell-3 { width: 25% }
 .statistics .row .cell-4 { width: 33.33% }
+
+.statistics .header .row .cell-3 { background: #dfeaf4 }
 
 
 .log .message div {

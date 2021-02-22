@@ -3,24 +3,45 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Überwachung für Alle!</title>
     <link rel="stylesheet" href="popup.css"/>
 </head>
 
 <body>
 
-    <h2>Überwachung für Alle!</h2>
-
-    <button class="new-tab">new tab</button>
+    <div class="head">
+        <div class="title"><span class="new-tab">Ü</span>berwachung für Alle!</div>
+    </div>
 
     <div class="statistics">
 
+        <div class="header">
+            <div class="row">
+                <div class="cell-3">event type</div><!--
+             --><div class="cell-3">collected</div><!--
+             --><div class="cell-3">exported</div><!--
+             --><div class="cell-3">pending</div>
+            </div>
+        </div>
+
+        <div class="events">
+            <div class="row">
+                <div class="cell-3">-</div><!--
+             --><div class="cell-3">-</div><!--
+             --><div class="cell-3">-</div><!--
+             --><div class="cell-3">-</div>
+            </div>
+        </div>
+
     </div>
 
-    <hr>
+    <div class="actions">
 
-    <button class="export">Export</button>
+        <button class="export">Export</button>
+        <button class="new-tab">New tab</button>
+        <button class="config">Config</button>
 
-    <hr>
+    </div>
 
     <div class="log"></div>
 
