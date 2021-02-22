@@ -6,7 +6,7 @@
   "homepage_url": "https://github.com/defgsus/",
   "icons": {
     "48": "assets/logo-48.png",
-    "96": "assets/logo-96.png"
+    "128": "assets/logo-128.png"
   },
 
   "permissions": [
@@ -39,7 +39,7 @@
   ],
 
   "browser_action": {
-    "default_icon": "assets/logo-96.png",
+    "default_icon": "assets/logo-48.png",
     "default_title": "Überwachung!",
     "default_popup": "popup/popup.html"
   }

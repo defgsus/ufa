@@ -44,10 +44,13 @@ for (const type of ["click", "dblclick"]) {
         //console.log("CONV", event_object);
         //console.log("TARGET", event_object.target);
 
-        chrome.runtime.sendMessage({
-            type: "content-mouse",
-            event: event_object,
-        });
+        try {
+            chrome.runtime.sendMessage({
+                type: "content-mouse",
+                event: event_object,
+            });
+        }
+        catch (e) {}
     });
 }
 
@@ -71,26 +74,29 @@ document.addEventListener("mousemove", (event) => {
 
 function grab_mouse_move() {
 
-    if (mouse_move_event && mouse_move_event !== last_exported_mouse_move_event) {
-        const target = document.elementFromPoint(
-            mouse_move_event.pageX,
-            mouse_move_event.pageY,
-        );
-        const event_object = mouse_event_to_object(mouse_move_event, target);
-        event_object.type = "move";
-        event_object.movement_x = movement_x;
-        event_object.movement_y = movement_y;
-        event_object.movement = movement_x + movement_y;
+    try {
+        if (mouse_move_event && mouse_move_event !== last_exported_mouse_move_event) {
+            const target = document.elementFromPoint(
+                mouse_move_event.pageX,
+                mouse_move_event.pageY,
+            );
+            const event_object = mouse_event_to_object(mouse_move_event, target);
+            event_object.type = "move";
+            event_object.movement_x = movement_x;
+            event_object.movement_y = movement_y;
+            event_object.movement = movement_x + movement_y;
 
-        chrome.runtime.sendMessage({
-            type: "content-mouse",
-            event: event_object,
-        });
+            chrome.runtime.sendMessage({
+                type: "content-mouse",
+                event: event_object,
+            });
 
-        last_exported_mouse_move_event = mouse_move_event;
-        movement_x = 0;
-        movement_y = 0;
+            last_exported_mouse_move_event = mouse_move_event;
+            movement_x = 0;
+            movement_y = 0;
+        }
     }
+    catch (e) { }
 
     setTimeout(grab_mouse_move, 2000);
 }

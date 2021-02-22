@@ -29,7 +29,7 @@ document.querySelector("button.export").addEventListener("click", () => {
 
 document.querySelector("button.new-tab").addEventListener("click", () => {
     chrome.tabs.create({
-        url: "popup.html",
+        url: "/popup/popup.html",
     });
 });
 
