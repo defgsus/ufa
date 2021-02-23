@@ -20,7 +20,21 @@ class Log {
         });
     }
 
+    debug(text, data) {
+        try {
+            if (!configuration.get("debug.log_debug"))
+                return;
+        }
+        catch (e) { }
+        this.message("log", text, data);
+    }
+
     log(text, data) {
+        try {
+            if (!configuration.get("debug.log_log"))
+                return;
+        }
+        catch (e) { }
         this.message("log", text, data);
     }
 
@@ -30,6 +44,15 @@ class Log {
 
     error(text, data) {
         this.message("error", text, data);
+    }
+
+    event(event_type, event) {
+        try {
+            if (!configuration.get("debug.log_event"))
+                return;
+        }
+        catch (e) { }
+        this.message("event", `${event_type}.${event.type}`, event);
     }
 
     catch_error(prefix, error) {

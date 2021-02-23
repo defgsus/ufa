@@ -55,6 +55,23 @@ const DEFAULT_CONFIGURATION = {
             },
         }
     },
+    debug: {
+        description: `<p>Development stuff that clutters the UI</p>`,
+        fields: {
+            log_log: {
+                type: "boolean",
+                name: "Log normal messages",
+            },
+            log_debug: {
+                type: "boolean",
+                name: "Log debugging messages",
+            },
+            log_event: {
+                type: "boolean",
+                name: "Log collected events",
+            }
+        }
+    }
 };
 
 
@@ -115,7 +132,8 @@ class Configuration {
                     for (const section_key of Object.keys(data)) {
                         const section = data[section_key];
                         for (const field_key of Object.keys(section)) {
-                            this.config[section_key].fields[field_key].value = section[field_key];
+                            if (this.config[section_key]?.fields[field_key])
+                                this.config[section_key].fields[field_key].value = section[field_key];
                         }
                     }
                     //log.log("config loaded");

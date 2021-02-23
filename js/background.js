@@ -64,7 +64,7 @@ class Background {
         this.export_timer = null;
 
         if (configuration.get("elasticsearch.active")) {
-            // log.log(`export in ${configuration.get("elasticsearch.export_interval")} seconds`);
+            log.debug(`export in ${configuration.get("elasticsearch.export_interval")} seconds`);
             this.export_timer = setTimeout(
                 this.export_events_periodic,
                 configuration.get("elasticsearch.export_interval") * 1000

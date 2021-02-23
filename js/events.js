@@ -39,7 +39,9 @@ class EventsBase {
 
     add(event) {
         event = this.convert(event);
-        console.log("EVENT", this.event_type, event.type, event);
+
+        log.event(this.event_type, event);
+
         this.events.push(event);
         this.num_collected += 1;
     }
