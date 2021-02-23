@@ -47,13 +47,17 @@ html, body {
     font-weight: bold;
     width: 20rem;
     display: inline-block;
+    vertical-align: super;
 }
 
 .config .section .field .value {
     display: inline-block;
 }
 
-
+.config .section .field .checkbox-wrapper {
+    background: #ddd;
+    margin-right: .5rem;
+}
 
 .actions {
     background: #c0d9f2;

@@ -8,6 +8,11 @@ class Configurator {
         this.local_config.load_storage()
             .then(() => {
                 this.render_config(this.local_config.config);
+            })
+            .catch(() => {
+                // fallback mode - probably just loading the html file for design reasons
+                console.log("config NOT LOADED from storage!");
+                this.render_config(DEFAULT_CONFIGURATION);
             });
 
         this.hook_dom();
@@ -84,8 +89,11 @@ class Configurator {
                 const field_name = field.name || field_key;
 
                 html += `<div class="field">`;
+                if (field.type === "boolean")
+                    html += this.render_input(section_key, field_key, field);
                 html += `<div class="name">${field_name}</div>`;
-                html += this.render_input(section_key, field_key, field);
+                if (field.type !== "boolean")
+                    html += this.render_input(section_key, field_key, field);
                 if (field.unit)
                     html += ` ${field.unit}`;
                 if (field.description)
@@ -116,6 +124,10 @@ class Configurator {
         else
             html += ` value="${field.value}"`;
         html += ` data-id="${section_key}.${field_key}" />`;
+
+        //if (field.type === "boolean") {
+            html = `<div class="value checkbox-wrapper">${html}</div>`;
+        //}
 
         return html;
     }
