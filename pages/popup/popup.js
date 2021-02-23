@@ -9,8 +9,8 @@ request_update();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.type) {
-        case "popup-render-events": renderEvents(message.events); break;
-        case "popup-render-log": renderLogs(message.messages); break;
+        case "render-events": renderEvents(message.events); break;
+        case "render-log": renderLogs(message.messages); break;
     }
 });
 
@@ -27,13 +27,11 @@ document.querySelector("button.config").addEventListener("click", () => {
     });
 });
 
-
-for (const elem of document.querySelectorAll(".new-tab"))
-    elem.addEventListener("click", () => {
-        chrome.tabs.create({
-            url: "/pages/popup/popup.html",
-        });
+document.querySelector("button.stats").addEventListener("click", () => {
+    chrome.tabs.create({
+        url: "/pages/stats/stats.html",
     });
+});
 
 
 function renderEvents(events) {
@@ -66,14 +64,14 @@ function renderLogs(messages) {
         let html = `<div class="message ${message.type}">`;
         html += `<div class="timestamp">${message.timestamp.toLocaleTimeString()}</div>`;
         html += `<div class="text">${message.text}</div>`;
-        if (message.data)
-            html += `<pre class="data">${JSON.stringify(message.data, null, 2)}</pre>`;
+        //if (message.data)
+        //    html += `<pre class="data">${JSON.stringify(message.data, null, 2)}</pre>`;
         html += `</div>`;
         html_lines.push(html);
     }
 
     let html = '';
-    for (let i=html_lines.length-1; i>=0; --i) {
+    for (let i=html_lines.length-1, j=0; i>=0 && j<4; --i, ++j) {
         html += html_lines[i];
     }
 

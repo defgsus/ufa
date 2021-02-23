@@ -84,11 +84,11 @@ class Background {
 
     update_popup_view = () => {
         chrome.runtime.sendMessage({
-            type: "popup-render-events",
+            type: "render-events",
             events: this.events.statistics(),
         });
         chrome.runtime.sendMessage({
-            type: "popup-render-log",
+            type: "render-log",
             messages: log.messages,
         });
     };

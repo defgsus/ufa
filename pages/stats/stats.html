@@ -3,18 +3,19 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Überwachung für Alle!</title>
+    <title>Stats - Überwachung für Alle!</title>
 
     <link rel="stylesheet" href="../base.css"/>
-    <link rel="stylesheet" href="popup.css"/>
+    <link rel="stylesheet" href="stats.css"/>
 
-    <!-- TODO Configuration requires Log but it's actually not working outside of background -->
-    <script src="../../js/log.js"></script>
-    <script src="../../js/config.js"></script>
+    <!-- also inject content capture -->
+    <script src="../../js/helper.js"></script>
+    <script src="../../js/content.js"></script>
 
 </head>
 
 <body>
+<div class="body">
 
     <div class="head">
         <div class="title">Überwachung für Alle!</div>
@@ -45,15 +46,27 @@
     <div class="actions">
 
         <button class="export">Export</button>
-        <button class="stats">Investigate</button>
         <button class="config">Config</button>
 
     </div>
 
-    <div class="log"></div>
+    <div class="log">
+        <div class="message">
+            <div class="timestamp">jfhdkjfhdkjfh</div>
+            <div class="text">Blabla Yo Yo</div>
+            <pre class="data">
+                {
+                    "hello": "world"
+                }
+            </pre>
+        </div>
 
-    <script src="popup.js"></script>
 
+    </div>
+
+    <script src="stats.js"></script>
+
+</div>
 </body>
 
 </html>

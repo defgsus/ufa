@@ -2,17 +2,6 @@ html, body {
     font-family: monospace;
 }
 
-.head {
-    background: #c0d9f2;
-    margin: 0;
-    padding: 1rem;
-}
-
-.head .title {
-    font-size: 2rem;
-    font-weight: bold;
-    display: inline;
-}
 
 .config .section {
     margin-left: 1rem;
@@ -57,22 +46,4 @@ html, body {
 .config .section .field .checkbox-wrapper {
     background: #ddd;
     margin-right: .5rem;
-}
-
-.actions {
-    background: #c0d9f2;
-    margin: 0;
-    margin-top: 2rem;
-    padding: 1rem;
-}
-
-.actions button {
-    background: white;
-    border: .2rem solid #a0baca;
-    padding: 0.1rem 1rem .1rem 1rem;
-    font-family: monospace;
-}
-
-.actions button:active {
-    background: lightgreen;
 }
