@@ -13,9 +13,12 @@ class Background {
         this.request_collector = new RequestCollector(this.events, this.tabs_collector);
         this.mouse_collector = new MouseCollector(this.events, this.tabs_collector);
         this.hook();
+        this.on_config_changed();
     }
 
     hook = () => {
+        this.export_timer = null;
+
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             //console.log("BACKGROUND on-message", message);
             switch (message.type) {
@@ -24,20 +27,8 @@ class Background {
                     this.update_popup_view();
                     break;
 
-                case "config-opened":
-                    this.update_config_view();
-                    break;
-
-                case "config-saved":
-                case "config-reset":
-                    configuration.config = message.type === "config-saved"
-                        ? message.configuration
-                        : DEFAULT_CONFIGURATION;
-                    configuration.save_storage();
-                    this.set_export_timeout();
-                    // TODO: should actually connect/disconnect from all extension events
-                    //  and the content scripts
-                    this.update_config_view();
+                case "config-changed":
+                    this.on_config_changed();
                     break;
 
                 case "content-mouse":
@@ -54,9 +45,17 @@ class Background {
 
             //sendResponse();
         });
+    };
 
-        this.export_timer = null;
-        this.set_export_timeout();
+    on_config_changed = () => {
+        configuration.load_storage()
+            .then(() => {
+                this.set_export_timeout();
+                // TODO: should actually connect/disconnect from all extension events
+                //  and the content scripts.
+                //  Right now the 'collectors' just do not export the events if
+                //  disabled by configuration.
+            });
     };
 
     set_export_timeout = () => {
@@ -65,9 +64,10 @@ class Background {
         this.export_timer = null;
 
         if (configuration.get("elasticsearch.active")) {
+            // log.log(`export in ${configuration.get("elasticsearch.export_interval")} seconds`);
             this.export_timer = setTimeout(
                 this.export_events_periodic,
-                configuration.get("elasticsearch.export_interval")
+                configuration.get("elasticsearch.export_interval") * 1000
             );
         }
     };
@@ -75,7 +75,7 @@ class Background {
     export_events_periodic = () => {
         const when_done = () => {
             this.set_export_timeout();
-            this.update_popup_view();
+            //this.update_popup_view();
         };
         this.events.export()
             .then(when_done)
@@ -93,12 +93,6 @@ class Background {
         });
     };
 
-    update_config_view = () => {
-        chrome.runtime.sendMessage({
-            type: "config-render",
-            configuration: configuration.config,
-        });
-    }
 }
 
 

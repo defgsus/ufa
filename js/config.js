@@ -61,7 +61,14 @@ const DEFAULT_CONFIGURATION = {
 class Configuration {
     constructor() {
         this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIGURATION));
-        this.load_storage();
+    }
+
+    get_config() {
+        return JSON.parse(JSON.stringify(this.config));
+    }
+
+    set_config(config) {
+        this.config = JSON.parse(JSON.stringify(config));
     }
 
     get(section_field) {
@@ -90,7 +97,6 @@ class Configuration {
                         data[section_key][field_key] = field.value;
                     }
                 }
-                console.log("CONF");
                 chrome.storage.local.set({"config": data}, resolve);
             })
             .then(r => {
@@ -109,10 +115,11 @@ class Configuration {
                     for (const section_key of Object.keys(data)) {
                         const section = data[section_key];
                         for (const field_key of Object.keys(section)) {
-                            this.config[section_key].fields[field_key] = section[field_key];
+                            this.config[section_key].fields[field_key].value = section[field_key];
                         }
                     }
-                    log.log("config loaded");
+                    //log.log("config loaded");
+                    return data;
                 }
             });
     }
@@ -120,4 +127,3 @@ class Configuration {
 
 // Live configuration accessible from background scripts
 const configuration = new Configuration();
-

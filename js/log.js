@@ -7,7 +7,10 @@ class Log {
     }
 
     message(type, text, data=undefined) {
-        console.log("LOG", type, text, data || "");
+        if (data)
+            console.log("LOG", type, text, data);
+        else
+            console.log("LOG", type, text);
 
         if (this.messages.length >= this.max_messages) {
             this.messages = this.messages.shift();
