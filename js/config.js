@@ -115,10 +115,6 @@ class Configuration {
                     }
                 }
                 chrome.storage.local.set({"config": data}, resolve);
-            })
-            .then(r => {
-                log.log("config saved");
-                return r;
             });
     }
 
@@ -136,7 +132,6 @@ class Configuration {
                                 this.config[section_key].fields[field_key].value = section[field_key];
                         }
                     }
-                    //log.log("config loaded");
                     return data;
                 }
             });

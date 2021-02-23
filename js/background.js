@@ -50,11 +50,13 @@ class Background {
     on_config_changed = () => {
         configuration.load_storage()
             .then(() => {
+                log.log("configuration loaded");
                 this.set_export_timeout();
                 // TODO: should actually connect/disconnect from all extension events
                 //  and the content scripts.
                 //  Right now the 'collectors' just do not export the events if
                 //  disabled by configuration.
+                // TODO: also must update content mouse capture interval
             });
     };
 
@@ -75,7 +77,6 @@ class Background {
     export_events_periodic = () => {
         const when_done = () => {
             this.set_export_timeout();
-            //this.update_popup_view();
         };
         this.events.export()
             .then(when_done)

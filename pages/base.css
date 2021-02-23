@@ -69,6 +69,7 @@
 }
 
 
+.log .message.debug { color: #666; }
 .log .message.log { color: #333; }
 .log .message.warn { color: #666627; }
 .log .message.error { color: #730606; }
