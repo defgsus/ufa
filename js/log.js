@@ -13,8 +13,9 @@ class Log {
             console.log("LOG", type, text);
 
         if (this.messages.length >= this.max_messages) {
-            this.messages = this.messages.shift();
+            this.messages.shift();
         }
+        
         this.messages.push({
             type, text, data, timestamp: new Date(),
         });
@@ -26,7 +27,7 @@ class Log {
                 return;
         }
         catch (e) { }
-        this.message("log", text, data);
+        this.message("debug", text, data);
     }
 
     log(text, data) {
