@@ -61,11 +61,17 @@ const DEFAULT_CONFIGURATION = {
 class Configuration {
     constructor() {
         this.config = JSON.parse(JSON.stringify(DEFAULT_CONFIGURATION));
+        this.load_storage();
     }
 
     get(section_field) {
         const sf = section_field.split(".");
-        return this.config[sf[0]].fields[sf[1]].value;
+        try {
+            return this.config[sf[0]].fields[sf[1]].value;
+        }
+        catch (e) {
+            throw `No config value '${section_field}'`;
+        }
     }
 
     set(section_field, value) {
@@ -73,6 +79,43 @@ class Configuration {
         this.config[sf[0]].fields[sf[1]].value = value;
     }
 
+    save_storage() {
+        return new Promise((resolve, reject) => {
+                const data = {};
+                for (const section_key of Object.keys(this.config)) {
+                    const section = this.config[section_key];
+                    data[section_key] = {};
+                    for (const field_key of Object.keys(section.fields)) {
+                        const field = section.fields[field_key];
+                        data[section_key][field_key] = field.value;
+                    }
+                }
+                console.log("CONF");
+                chrome.storage.local.set({"config": data}, resolve);
+            })
+            .then(r => {
+                log.log("config saved");
+                return r;
+            });
+    }
+
+    load_storage() {
+        return new Promise((resolve, reject) => {
+                chrome.storage.local.get(["config"], resolve);
+            })
+            .then(data => {
+                if (data?.config) {
+                    data = data.config;
+                    for (const section_key of Object.keys(data)) {
+                        const section = data[section_key];
+                        for (const field_key of Object.keys(section)) {
+                            this.config[section_key].fields[field_key] = section[field_key];
+                        }
+                    }
+                    log.log("config loaded");
+                }
+            });
+    }
 }
 
 // Live configuration accessible from background scripts

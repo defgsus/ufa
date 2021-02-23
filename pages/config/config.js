@@ -27,10 +27,15 @@ document.querySelector("button.save").addEventListener("click", () => {
     });
 });
 
-
 document.querySelector("button.revert").addEventListener("click", () => {
     chrome.runtime.sendMessage({
         type: "config-opened",
+    });
+});
+
+document.querySelector("button.reset").addEventListener("click", () => {
+    chrome.runtime.sendMessage({
+        type: "config-reset",
     });
 });
 

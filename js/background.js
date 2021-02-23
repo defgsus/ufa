@@ -29,7 +29,11 @@ class Background {
                     break;
 
                 case "config-saved":
-                    configuration.config = message.configuration;
+                case "config-reset":
+                    configuration.config = message.type === "config-saved"
+                        ? message.configuration
+                        : DEFAULT_CONFIGURATION;
+                    configuration.save_storage();
                     this.set_export_timeout();
                     // TODO: should actually connect/disconnect from all extension events
                     //  and the content scripts
