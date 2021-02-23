@@ -15,7 +15,7 @@ class Log {
         if (this.messages.length >= this.max_messages) {
             this.messages.shift();
         }
-        
+
         this.messages.push({
             type, text, data, timestamp: new Date(),
         });

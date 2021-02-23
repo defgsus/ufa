@@ -37,6 +37,7 @@ class EventsMouse extends EventsBase {
                 target: TAG_MAPPING,
                 timestamp: {"type": "date"},
                 type: {"type": "keyword"},
+                wheel: {"type": "float"},
                 wheel_x: {"type": "float"},
                 wheel_y: {"type": "float"},
                 wheel_z: {"type": "float"},
