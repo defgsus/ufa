@@ -1,3 +1,20 @@
+function filter_request_headers(headers) {
+    if (!headers)
+        return headers;
+
+    if (!configuration.get("requests.headers"))
+        return null;
+
+    const reg = new RegExp(configuration.get("requests.header_name_pattern"));
+
+    return headers.map(header => (
+            {...header, name: header.name.toLowerCase()}
+        ))
+        .filter(header => {
+            return header.name.match(reg);
+        });
+}
+
 class EventsRequest extends EventsBase {
     constructor() {
         super("request")
@@ -60,7 +77,7 @@ class EventsRequest extends EventsBase {
             ip: event.ip,
             method: event.method,
             parent_frame_id: event.parentFrameId,
-            request_headers: event.requestHeaders,
+            request_headers: filter_request_headers(event.requestHeaders),
             request_id: event.requestId,
             request_size: event.requestSize,
             response_size: event.responseSize,
@@ -109,13 +126,11 @@ class RequestCollector {
         chrome.webRequest.onCompleted.addListener(
             this.on_completed,
             {urls: this.urls},
-            //["requestHeaders"]
         );
 
         chrome.webRequest.onErrorOccurred.addListener(
             this.on_completed,
             {urls: this.urls},
-            //["requestHeaders"]
         );
     };
 

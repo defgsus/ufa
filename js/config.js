@@ -27,6 +27,17 @@ const DEFAULT_CONFIGURATION = {
             active: {
                 type: "boolean"
             },
+            headers: {
+                type: "boolean",
+                name: "include headers",
+                description: `Includes the header values. Be careful because this can leak credentials.`
+            },
+            header_name_pattern: {
+                type: "string",
+                name: "header names",
+                description: `A regular expression to limit the exported headers.`,
+                value: "user-agent",
+            }
         }
     },
     mouse: {

@@ -19,8 +19,11 @@ function split_url(url) {
         path: not_empty_string(a.pathname),
         hash: not_empty_string(a.hash),
     };
-    if (not_empty_string(url.search))
-        data.param = a.search.split("&");
+    if (not_empty_string(url.search)) {
+        const param = a.search.split("&");
+        if (!(param.length === 1 && param[0] === ""))
+            data.param = param;
+    }
     return data;
 }
 
@@ -65,4 +68,4 @@ function convert_timestamp(ts) {
     catch (e) {
         return null;
     }
-};
+}
