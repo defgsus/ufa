@@ -1,6 +1,6 @@
 "use strict";
 
-(() => {
+
 
 function mouse_event_to_object(event, target=null) {
     return {
@@ -170,5 +170,63 @@ grab_mouse_accum();
 
 
 
+/// ---- keyboard ----
 
-})();
+class KeyListener {
+    constructor() {
+        this.key_events = {};
+        this.hook();
+    }
+
+    hook() {
+        document.addEventListener("keydown", this.on_key_down);
+        document.addEventListener("keyup", this.on_key_up);
+    }
+
+    on_key_down = (event) => {
+        if (!this.key_events[event.code]) {
+            this.key_events[event.code] = this.event_to_object(event);
+        }
+    };
+
+    on_key_up = (event) => {
+        if (this.key_events[event.code]) {
+            const event_obj = this.key_events[event.code];
+            event_obj.timestamp_released = new Date();
+            event_obj.duration = event_obj.timestamp_released.getTime() - event_obj.timestamp.getTime();
+            event_obj.timestamp = event_obj.timestamp.toISOString();
+            event_obj.timestamp_released = event_obj.timestamp_released.toISOString();
+
+            chrome.runtime.sendMessage({
+                type: "content-key",
+                event: event_obj,
+            });
+
+            delete this.key_events[event.code];
+        }
+        else {
+            const event_obj = this.event_to_object(event);
+            event_obj.timestamp_released = event_obj.timestamp.toISOString();
+            event_obj.timestamp = null;
+        }
+    };
+
+    event_to_object = (event, target=null) => {
+        return {
+            alt_key: event.altKey ? 1 : 0,
+            code: event.code,  // str
+            ctrl_key: event.ctrlKey ? 1 : 0,
+            is_trusted: event.isTrusted,
+            key: event.key, // str
+            meta_key: event.metaKey ? 1 : 0,
+            shift_key: event.shiftKey ? 1 : 0,
+            target: element_to_object(target || event.target),
+            timestamp: new Date(),
+            type: event.type,
+        }
+    };
+
+}
+
+
+const key_listener = new KeyListener();

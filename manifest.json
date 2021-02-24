@@ -26,6 +26,7 @@
       "js/tabs.js",
       "js/requests.js",
       "js/mouse.js",
+      "js/keyboard.js",
       "js/background.js"
     ]
   },

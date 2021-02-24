@@ -8,10 +8,12 @@ class Background {
         this.events.add_events(new EventsMouse());
         this.events.add_events(new EventsRequest());
         this.events.add_events(new EventsTab());
+        this.events.add_events(new EventsKeyboard());
 
         this.tabs_collector = new TabsCollector(this.events);
         this.request_collector = new RequestCollector(this.events, this.tabs_collector);
         this.mouse_collector = new MouseCollector(this.events, this.tabs_collector);
+        this.keyboard_collector = new KeyboardCollector(this.events, this.tabs_collector);
         this.hook();
         this.on_config_changed();
     }
@@ -33,6 +35,10 @@ class Background {
 
                 case "content-mouse":
                     this.mouse_collector.add(message.event, sender.tab);
+                    break;
+
+                case "content-key":
+                    this.keyboard_collector.add(message.event, sender.tab);
                     break;
 
                 case "export":

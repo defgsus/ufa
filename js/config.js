@@ -40,6 +40,14 @@ const DEFAULT_CONFIGURATION = {
             }
         }
     },
+    tabs: {
+        description: `<p>Records anything about your tabs like opening, closing, changing and activity time.</p>`,
+        fields: {
+            active: {
+                type: "boolean"
+            },
+        }
+    },
     mouse: {
         fields: {
             click: {
@@ -58,11 +66,19 @@ const DEFAULT_CONFIGURATION = {
             },
         }
     },
-    tabs: {
-        description: `<p>Records anything about your tabs like opening, closing, changing and activity time.</p>`,
+    keyboard: {
+        description: `<p>Yes, this one records your keyboard events!`
+                    + `The duration in milliseconds is also included.`
+                    + ` You can omit the actual pressed key`
+                    + ` if that makes you feel more <em>private</em>.</p>`,
         fields: {
             active: {
-                type: "boolean"
+                type: "boolean",
+            },
+            include_key: {
+                type: "boolean",
+                name: "include pressed key",
+                description: `Will include the <em>key</em> and <em>code</em> fields of keyboard events.`
             },
         }
     },
