@@ -1,5 +1,12 @@
 
+let log_messages = [];
+
+
 function connect_extension() {
+
+    document.querySelector("input.show-log-data").addEventListener("click", () => {
+        render_the_logs();
+    });
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         switch (message.type) {
@@ -7,7 +14,8 @@ function connect_extension() {
                 renderEvents(message.events);
                 break;
             case "render-log":
-                renderLogs(message.messages, true);
+                log_messages = message.messages;
+                render_the_logs();
                 break;
         }
     });
@@ -36,9 +44,15 @@ try {
     connect_extension();
 }
 catch (e) {
-    renderLogs([
+    log_messages = [
         {type: "log", text: "Some message", data: {"hello": "world"}, timestamp: new Date()},
         {type: "warn", text: "There is no data", timestamp: new Date()},
         {type: "error", text: "Very important", data: {"error": 23}, timestamp: new Date()},
-    ], true);
+    ];
+    render_the_logs();
+}
+
+
+function render_the_logs() {
+    renderLogs(log_messages, document.querySelector("input.show-log-data").checked);
 }

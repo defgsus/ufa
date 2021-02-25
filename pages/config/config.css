@@ -40,7 +40,7 @@ html, body {
     font-weight: bold;
     width: 20rem;
     display: inline-block;
-    vertical-align: super;
+    vertical-align: middle;
 }
 
 .config .section .field .value {
