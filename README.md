@@ -22,6 +22,9 @@ firefox and chromium a.t.m.
 In firefox go to `about:debugging`, select *This Firefox* and browse 
 for the [manifest.json](manifest.json).
 
+Or permanently install a signed package from the [dist/firefox/](dist/firefox)
+folder by clicking the gear icon on the `about:addons` page.
+
 It's submitted for listing on 
 [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/%C3%BCberwachung-f%C3%BCr-alle/)
 but got rejected with the elaborate comment *"Spam content"*.
@@ -40,6 +43,7 @@ To see the structure of the event objects that are exported open the *Investigat
 page and click on one of the events.
 
 ### Important
+
 This is a fun project but it actually can leak confidential 
 data so be careful where you export your data to. There is no hidden 
 communication to Microsoft or anyone else, unless you specifically say 

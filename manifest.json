@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Elasticsearch export of your browsing behaviour",
   "name": "Überwachung für Alle!",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage_url": "https://github.com/defgsus/ufa/",
   "icons": {
     "48": "assets/logo-48.png",
