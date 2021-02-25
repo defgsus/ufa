@@ -3,4 +3,5 @@ html, body {
     width: 40rem;
     margin: 0;
     font-family: monospace;
+    overflow: hidden;
 }
