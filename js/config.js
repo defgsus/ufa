@@ -10,13 +10,21 @@ const DEFAULT_CONFIGURATION = {
             },
             hostname: {
                 type: "string",
-                value: "localhost:9200"
+                value: "http://localhost:9200"
             },
             export_interval: {
                 type: "integer",
                 name: "interval between exports",
                 value: 60, unit: "seconds"
             },
+            index_prefix: {
+                type: "string",
+                name: "index name prefix",
+                value: "ufa-events",
+                description: `<p>Each event (mouse, request, ...) will be exported to it's own index.`
+                            +` This string is the prefix and the event type is appended,`
+                            +` e.g. <b>ufa-events-mouse</b> for mouse events.</p>`
+            }
         }
     },
     requests: {

@@ -6,8 +6,13 @@
 class ElasticClient {
 
     constructor(host) {
-        this.host = host;
+        this.host = null;
+        this.update_from_config();
     }
+
+    update_from_config = () => {
+        this.host = configuration.get("elasticsearch.hostname");
+    };
 
     request = (path, {method, params, body}) => {
         if (typeof body === "object") {
@@ -114,9 +119,18 @@ class ElasticClient {
             return response;
         });
     };
+
+    search(index, body, params) {
+        return this.request(
+            `${index}/_search`,
+            {
+                method: "GET",
+                params: params,
+                body: body,
+            }
+        );
+    }
 }
 
 
-elastic_client = new ElasticClient(
-    "http://localhost:9200"
-);
+elastic_client = new ElasticClient();

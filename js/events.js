@@ -35,7 +35,7 @@ class EventsBase {
     }
 
     index_name() {
-        return `browser-events-${this.event_type}`
+        return `${configuration.get("elasticsearch.index_prefix")}-${this.event_type}`
     }
 
     add(event) {

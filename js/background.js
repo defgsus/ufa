@@ -58,11 +58,13 @@ class Background {
             .then(() => {
                 log.log("configuration loaded");
                 this.set_export_timeout();
+                elastic_client.update_from_config();
                 // TODO: should actually connect/disconnect from all extension events
                 //  and the content scripts.
                 //  Right now the 'collectors' just do not export the events if
                 //  disabled by configuration.
                 // TODO: also must update content mouse capture interval
+                //  which means sending the config value to the content scripts
             });
     };
 
