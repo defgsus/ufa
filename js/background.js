@@ -18,8 +18,9 @@ class Background {
         this.on_config_changed();
     }
 
-    hook = () => {
+    hook() {
         this.export_timer = null;
+        this.export_events_periodic = this.export_events_periodic.bind(this);
 
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             //console.log("BACKGROUND on-message", message);
@@ -57,7 +58,7 @@ class Background {
         });
     };
 
-    on_config_changed = () => {
+    on_config_changed() {
         configuration.load_storage()
             .then(() => {
                 log.log("configuration loaded");
@@ -72,7 +73,7 @@ class Background {
             });
     };
 
-    set_export_timeout = () => {
+    set_export_timeout() {
         if (this.export_timer)
             clearTimeout(this.export_timer);
         this.export_timer = null;
@@ -86,7 +87,7 @@ class Background {
         }
     };
 
-    export_events_periodic = () => {
+    export_events_periodic() {
         const when_done = () => {
             this.set_export_timeout();
         };
@@ -95,7 +96,7 @@ class Background {
             .catch(when_done);
     };
 
-    update_popup_view = () => {
+    update_popup_view() {
         chrome.runtime.sendMessage({
             type: "render-events",
             events: this.events.statistics(),
@@ -106,7 +107,7 @@ class Background {
         });
     };
 
-    send_event_data = () => {
+    send_event_data() {
         chrome.runtime.sendMessage({
             type: "event-data",
             events: this.events.events,

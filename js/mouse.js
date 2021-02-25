@@ -66,7 +66,7 @@ class MouseCollector {
         this.tabs = tabs;
     }
 
-    add = (event, tab) => {
+    add(event, tab) {
         if (configuration.get(`mouse.${event.type}`)) {
             this.events.add("mouse", {
                 ...event,

@@ -101,7 +101,14 @@ class TabsCollector {
         this.hook();
     }
 
-    hook = () => {
+    hook() {
+        this.on_created = this.on_created.bind(this);
+        this.on_updated = this.on_updated.bind(this);
+        this.on_removed = this.on_removed.bind(this);
+        this.on_activated = this.on_activated.bind(this);
+        this.on_moved = this.on_moved.bind(this);
+        this.on_zoom = this.on_zoom.bind(this);
+
         chrome.tabs.onCreated.addListener(this.on_created);
         chrome.tabs.onUpdated.addListener(this.on_updated);
         chrome.tabs.onRemoved.addListener(this.on_removed);
@@ -110,17 +117,17 @@ class TabsCollector {
         chrome.tabs.onZoomChange.addListener(this.on_zoom);
     };
 
-    on_created = (tab) => {
+    on_created(tab) {
         this.tabs[tab.id] = tab;
         this.export_tab_event("create", tab.id);
     };
 
-    on_updated = (tabId, changeInfo, tab) => {
+    on_updated(tabId, changeInfo, tab) {
         this.tabs[tabId] = tab;
         this.export_tab_event("update", tabId);
     };
 
-    on_removed = (tabId, removeInfo) => {
+    on_removed(tabId, removeInfo) {
         let active_time = undefined;
         if (this.tab_active_time[tabId]) {
             const timestamp = new Date().getTime();
@@ -134,7 +141,7 @@ class TabsCollector {
             });
     };
 
-    on_activated = (event) => {
+    on_activated(event) {
         const timestamp = new Date().getTime();
         this.tab_active_time[event.tabId] = timestamp;
 
@@ -155,19 +162,19 @@ class TabsCollector {
         // tabId, previousTabId, windowId
     };
 
-    on_moved = (tabId, moveInfo) => {
+    on_moved(tabId, moveInfo) {
         this.export_tab_event("move", tabId, moveInfo);
         // fromIndex, toIndex, windowId
     };
 
-    on_zoom = (event) => {
+    on_zoom(event) {
         this.export_tab_event("zoom", event.tabId, {
             zoom: event.moveInfo && event.moveInfo.newZoomFactor,
         });
         // oldZoomFactor, newZoomFactor, windowId
     };
 
-    export_tab_event = (type, id, extra_data) => {
+    export_tab_event(type, id, extra_data) {
         if (!configuration.get("tabs.active"))
             return;
 
@@ -194,7 +201,7 @@ class TabsCollector {
             });
     };
 
-    get_tab = (id) => {
+    get_tab(id) {
         // TODO: probably has to be made cross-platform
         try {
             return browser.tabs.get(id);
@@ -206,7 +213,7 @@ class TabsCollector {
         }
     };
 
-    get_all_tabs = () => {
+    get_all_tabs() {
         try {
             return browser.tabs.query({});
         }
@@ -217,31 +224,3 @@ class TabsCollector {
         }
     };
 }
-
-/*
-active: true
-attention: false
-audible: false
-cookieStoreId: "firefox-private"
-discarded: false
-favIconUrl: "chrome://branding/content/icon32.png"
-height: 972
-hidden: false
-highlighted: true
-id: 67
-incognito: true
-index: 14
-isArticle: undefined
-isInReaderMode: false
-lastAccessed: 1613782723249
-mutedInfo: Object { muted: false }
-pinned: false
-sharingState: Object { camera: false, microphone: false, screen: undefined }
-status: "complete"
-successorTabId: -1
-title: "Private Browsing"
-url: "about:blank"
-width: 1920
-windowId: 1
-
- */

@@ -116,7 +116,10 @@ class RequestCollector {
         this.hook();
     }
 
-    hook = () => {
+    hook() {
+        this.on_send_headers = this.on_send_headers.bind(this);
+        this.on_completed = this.on_completed.bind(this);
+
         chrome.webRequest.onSendHeaders.addListener(
             this.on_send_headers,
             {urls: this.urls},
@@ -134,14 +137,14 @@ class RequestCollector {
         );
     };
 
-    on_send_headers = (request) => {
+    on_send_headers(request) {
         this.requests[request.requestId] = {
             ...request,
             timestamp: request.timeStamp,
         };
     };
 
-    on_completed = (request) => {
+    on_completed(request) {
         if (this.requests[request.requestId])
             request = {
                 ...this.requests[request.requestId],
@@ -154,7 +157,7 @@ class RequestCollector {
         this.export_request(request);
     };
 
-    export_request = (request) => {
+    export_request(request) {
         if (!configuration.get("requests.active"))
             return;
 

@@ -125,7 +125,7 @@ class Events {
         this.events[events.event_type] = events;
     }
 
-    add = (type, data) => {
+    add(type, data) {
 
         const events = this.events[type];
         if (!events)
@@ -139,7 +139,7 @@ class Events {
         events.add(data);
     };
 
-    statistics = () => {
+    statistics() {
         const stats = {};
 
         for (const event_type of Object.keys(this.events)) {
@@ -153,7 +153,7 @@ class Events {
         return stats;
     };
     
-    export = () => {
+    export() {
         const promises = [];
 
         for (const type of Object.keys(this.events)) {

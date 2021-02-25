@@ -50,7 +50,7 @@ class KeyboardCollector {
         this.tabs = tabs;
     }
 
-    add = (event, tab) => {
+    add(event, tab) {
         if (configuration.get("keyboard.active")) {
 
             const extra_data = configuration.get("keyboard.include_key")

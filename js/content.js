@@ -81,7 +81,7 @@ class MouseAccumulator {
 
     update_event_object(event) { }
 
-    export = () => {
+    export() {
         if (this.event && this.event !== this.last_exported_event) {
             const event = this.event;
             const target = document.elementFromPoint(
@@ -179,17 +179,20 @@ class KeyListener {
     }
 
     hook() {
+        this.on_key_down = this.on_key_down.bind(this);
+        this.on_key_up = this.on_key_up.bind(this);
+
         document.addEventListener("keydown", this.on_key_down);
         document.addEventListener("keyup", this.on_key_up);
     }
 
-    on_key_down = (event) => {
+    on_key_down(event) {
         if (!this.key_events[event.code]) {
             this.key_events[event.code] = this.event_to_object(event);
         }
     };
 
-    on_key_up = (event) => {
+    on_key_up(event) {
         if (this.key_events[event.code]) {
             const event_obj = this.key_events[event.code];
             event_obj.timestamp_released = new Date();
@@ -216,7 +219,7 @@ class KeyListener {
         }
     };
 
-    event_to_object = (event, target=null) => {
+    event_to_object(event, target=null) {
         return {
             alt_key: event.altKey ? 1 : 0,
             code: event.code,  // str

@@ -51,7 +51,7 @@ function renderLogs(messages, with_data=false, max_lines=4) {
     }
 
     let html = '';
-    for (let i=html_lines.length-1, j=0; i>=0 && j<4; --i, ++j) {
+    for (let i=html_lines.length-1, j=0; i>=0 && j<max_lines; --i, ++j) {
         html += html_lines[i];
     }
 

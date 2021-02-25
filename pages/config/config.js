@@ -19,6 +19,8 @@ class Configurator {
     }
 
     hook_dom() {
+        this.on_input_change = this.on_input_change.bind(this);
+
         document.querySelector("button.save").addEventListener("click", () => {
             this.local_config.save_storage()
                 .then(() => {
@@ -51,7 +53,7 @@ class Configurator {
         });
     }
 
-    on_input_change = (e) => {
+    on_input_change(e) {
         const elem = e.target;
         // console.log("INPUT", elem);
         const config_key = elem.getAttribute("data-id").split(".");

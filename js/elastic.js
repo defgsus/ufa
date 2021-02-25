@@ -10,11 +10,11 @@ class ElasticClient {
         this.update_from_config();
     }
 
-    update_from_config = () => {
+    update_from_config() {
         this.host = configuration.get("elasticsearch.hostname");
     };
 
-    request = (path, {method, params, body}) => {
+    request(path, {method, params, body}) {
         if (typeof body === "object") {
             body = JSON.stringify(body);
         }
@@ -40,7 +40,7 @@ class ElasticClient {
      * @param mapping object, a elasticsearch mapping
      * @returns {Promise<Response>}
      */
-    update_index = (index, mapping) => {
+    update_index(index, mapping) {
         return this
             .request(index, {method: "HEAD"})
             .then(response => {
@@ -94,7 +94,7 @@ class ElasticClient {
      *      List of objects, prepared for elasticsearch
      * @returns {Promise<Response>}
      */
-    export_documents = (index, documents) => {
+    export_documents(index, documents) {
         let body = "";
         for (const doc of documents) {
             body += `{"index":{"_index": "${index}"}}\n`;
