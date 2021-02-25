@@ -37,7 +37,7 @@ function time_str(date) {
 }
 
 
-function renderLogs(messages, with_data=false) {
+function renderLogs(messages, with_data=false, max_lines=4) {
 
     const html_lines = [];
     for (const message of messages) {

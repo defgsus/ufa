@@ -7,3 +7,23 @@ html, body {
     max-width: 50rem;
 }
 
+.event-data .event-type {
+    background: #dfeaf4;
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
+.event-data .event-type div {
+    display: inline-block;
+    vertical-align: super;
+}
+
+.event-data .event-type .title {
+    color: #666;
+    margin-left: .5rem;
+}
+.event-data .event-type .timestamp {
+    color: #666;
+    margin-right: .5rem;
+    float: right;
+}

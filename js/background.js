@@ -29,6 +29,10 @@ class Background {
                     this.update_popup_view();
                     break;
 
+                case "request-event-data":
+                    this.send_event_data();
+                    break;
+
                 case "config-changed":
                     this.on_config_changed();
                     break;
@@ -102,6 +106,12 @@ class Background {
         });
     };
 
+    send_event_data = () => {
+        chrome.runtime.sendMessage({
+            type: "event-data",
+            events: this.events.events,
+        });
+    };
 }
 
 
