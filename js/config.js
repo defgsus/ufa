@@ -67,11 +67,18 @@ const DEFAULT_CONFIGURATION = {
                 name: "record movement",
                 description: `Accumulates mouse movements and collects them in a fixed time interval.`
             },
+            wheel: {
+                type: "boolean",
+                name: "record wheel panning",
+                description: `Accumulates mouse wheel scrolling or however that is called and collects it in a fixed time interval.`
+            },
+            /*
+            TODO: this is actually not controllable right now
             move_interval: {
                 type: "integer",
-                name: "record movement interval",
-                value: 2, unit: "seconds"
-            },
+                name: "record interval",
+                value: 2, unit: "seconds",
+            },*/
         }
     },
     keyboard: {

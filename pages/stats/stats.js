@@ -19,12 +19,7 @@ function connect_extension() {
                 render_the_logs();
                 break;
             case "event-data":
-                for (const event_type of Object.keys(message.events)) {
-                    if (message.events[event_type].events?.length) {
-                        latest_events[event_type] =
-                            message.events[event_type].events[message.events[event_type].events.length - 1];
-                    }
-                }
+                store_latest_events(message.events);
                 render_latest_events();
                 break;
         }
@@ -66,8 +61,8 @@ catch (e) {
         {type: "error", text: "Very important", data: {"error": 23}, timestamp: new Date()},
     ];
     latest_events = {
-        "mouse": {"timestamp": "2000-01-01T00:00.000Z", "some": "more"},
-        "keyboard": {"timestamp": "2000-01-01T00:00.000Z", "some": "more"},
+        "mouse.wheel": {type: "wheel", "timestamp": "2000-01-01T00:00.000Z", "some": "more"},
+        "keyboard.keydown": {type: "keydown", "timestamp": "2000-01-01T00:00.000Z", "some": "more"},
     };
     render_the_logs();
     render_latest_events();
@@ -80,6 +75,19 @@ function render_the_logs() {
         document.querySelector("input.show-log-data").checked,
         100,
     );
+}
+
+function store_latest_events(events) {
+    for (const event_type of Object.keys(events)) {
+        if (events[event_type].events?.length) {
+            for (const event of events[event_type].events) {
+                const key = `${event_type}.${event.type}`;
+                if (!latest_events[key] || event.timestamp > latest_events[key].timestamp) {
+                    latest_events[key] = event;
+                }
+            }
+        }
+    }
 }
 
 function render_latest_events() {
