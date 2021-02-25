@@ -26,6 +26,9 @@ click *Load unpacked*.
 Once it's loaded, click the ![popup image](assets/logo-48.png) and open 
 the configuration. All surveillance features are deactivated by default.
 
+To see the structure of the event objects that are exported open the *Investigate*
+page and click on one of the events.
+
 Apart from this great plugin here is something personal i share. 
 The count and average duration of the alphabetic keys that i pressed while 
 writing this readme and the script for these images in a jupyter notebook:
