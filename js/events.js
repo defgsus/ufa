@@ -19,6 +19,7 @@ const TAG_MAPPING = {
         "class": {"type": "keyword"},
         "title": {"type": "keyword"},
         "text": {"type": "keyword"},
+        "type": {"type": "keyword"},
         "href": URL_MAPPING,
         "src": URL_MAPPING,
     }

@@ -79,6 +79,7 @@ const DEFAULT_CONFIGURATION = {
                 type: "boolean",
                 name: "include pressed key",
                 description: `Will include the <em>key</em> and <em>code</em> fields of keyboard events.`
+                            + ` Keys will still be omitted if the <em>target</em> is a password input`
             },
         }
     },

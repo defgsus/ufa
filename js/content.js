@@ -197,6 +197,11 @@ class KeyListener {
             event_obj.timestamp = event_obj.timestamp.toISOString();
             event_obj.timestamp_released = event_obj.timestamp_released.toISOString();
 
+            if (event.target?.type === "password") {
+                event_obj.key = undefined;
+                event_obj.code = undefined;
+            }
+
             chrome.runtime.sendMessage({
                 type: "content-key",
                 event: event_obj,

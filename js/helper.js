@@ -38,7 +38,7 @@ function minimal_tab_data(tab) {
     }
 }
 
-
+/** Some minimal representation of an HTML element */
 function element_to_object(elem) {
     const data = {
         tag: elem.tagName,
@@ -46,6 +46,7 @@ function element_to_object(elem) {
         id: elem.id,
         title: elem.title,
         text: elem.innerText ? elem.innerText.slice(0, 128) : undefined,
+        type: elem.type,
     };
     if (elem.getAttribute("href"))
         data.href = split_url(elem.getAttribute("href"));
